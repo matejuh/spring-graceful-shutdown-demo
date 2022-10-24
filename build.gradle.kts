@@ -1,18 +1,25 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.3.4.RELEASE"
-	id("io.spring.dependency-management") version "1.0.10.RELEASE"
-	kotlin("jvm") version "1.3.72"
-	kotlin("plugin.spring") version "1.3.72"
+	id("org.springframework.boot") version "3.0.0-RC1"
+	id("io.spring.dependency-management") version "1.1.0"
+	kotlin("jvm") version "1.7.20"
+	kotlin("plugin.spring") version "1.7.20"
 }
 
-group = "com.gooddata.shutdown"
+apply<JavaPlugin>()
+apply(plugin = "org.jetbrains.kotlin.jvm")
+
+val javaVersion = JavaVersion.VERSION_18
+
+group = "com.shutdown"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+
+java.sourceCompatibility = javaVersion
 
 repositories {
 	mavenCentral()
+	maven { url = uri("https://repo.spring.io/milestone") }
 }
 
 dependencies {
@@ -29,13 +36,13 @@ dependencies {
 	testImplementation("io.projectreactor:reactor-test")
 }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
-}
-
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "11"
+		jvmTarget = javaVersion.toString()
 	}
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
 }

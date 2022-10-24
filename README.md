@@ -6,6 +6,10 @@ Graceful shutdown was introduced in [Spring Boot 2.3](https://github.com/spring-
 
 `curl localhost:8080/ping -v`
 
+## Java exit code
+
+`128 + exit_code_value`
+
 `SIGKILL (9)` - application exists without waiting with non-zero exit value 137
 
 `SIGINT (2) = Ctrl+C` - application waits for requests to finish, but finishes with non-zero exit value 130
@@ -18,6 +22,14 @@ K8s apps must end with status code 0 otherwise it's taken as failed shutdown.
 
 prestop hook not possible to use because Actuator shutdown is not blocking, so sigterm is called immediately. Block on calling some url is also not possible because Spring stops accepting all connections.
 
+## Spring Docker image
+
 `./gradlew bootBuildImage`
+`docker run docker.io/library/spring-graceful-shutdown-demo:0.0.1-SNAPSHOT`
 
 There is no fix in Spring build image.
+
+## Docker image
+```bash
+docker build -t matejuh/spring-graceful-shutdown-demo:0.1.1 .
+```

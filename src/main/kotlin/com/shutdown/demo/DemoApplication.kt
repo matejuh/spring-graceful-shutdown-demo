@@ -15,18 +15,18 @@ class DemoApplication
 
 fun main(args: Array<String>) {
     SpringApplicationBuilder(DemoApplication::class.java)
-            .initializers(ApplicationContextInitializer<GenericApplicationContext> { ctx ->
-                beans {
-                    bean {
-                        router {
-                            GET("/ping") {
-                                noContent().build().delayElement(Duration.ofSeconds(30))
-                            }
+        .initializers(ApplicationContextInitializer<GenericApplicationContext> { ctx ->
+            beans {
+                bean {
+                    router {
+                        GET("/ping") {
+                            noContent().build().delayElement(Duration.ofSeconds(30))
                         }
                     }
-                }.initialize(ctx)
-            })
-            .build()
-            .run(*args)
+                }
+            }.initialize(ctx)
+        })
+        .build()
+        .run(*args)
 }
 
